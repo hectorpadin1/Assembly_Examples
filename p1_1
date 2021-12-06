@@ -1,0 +1,29 @@
+.data
+	cadena: .space 100		#reserva 100 bytes en memoria
+
+.text
+.globl main
+
+main:
+
+	la $a0, cadena		#carga 100 bytes vacíos en el segmento de memoria
+	addi $v0, $0, 8		#lectura de string por teclado
+	syscall 
+
+	addi $v0, $0, 4		#mostramos el string
+	syscall
+
+	lb $t0, 0($a0)		#cogemos el carácter 0 del string y lo guardamos en $t0
+	lb $t1, 1($a0)		#cogemos el carácter 1 del string y lo guardamos en $t1
+	lb $t2, 2($a0)		#cogemos el carácter 2 del string y lo guardamos en $t2
+	lb $t3, 3($a0)		#cogemos el carácter 3 del string y lo guardamos en $t3
+	sb $t1, 0($a0)		#ponemos el carácter 1 en la posición 0
+	sb $t0, 1($a0)		#ponemos el carácter 0 en la posición 1
+	sb $t3, 2($a0)		#ponemos el carácter 3 en la posición 2
+	sb $t2, 3($a0)		#ponemos el carácter 2 en la posición 3
+
+	addi $v0, $0, 4		#mostramos el string
+	syscall 
+
+	addi $v0, $0, 10		#finalización del programa
+	syscall

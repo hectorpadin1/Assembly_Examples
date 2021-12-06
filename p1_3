@@ -1,0 +1,36 @@
+.data
+	cadena: .space 100		#reserva 100 bytes en memoria
+
+.text
+.globl main
+
+main:
+
+	la $a0, cadena		#carga 100 bytes vacíos en el segmento de memoria
+	addi $v0, $0, 8		#lectura de string por teclado
+	syscall 
+	addi $t2,$0,2		#$t2 guarda el número de iteraciones
+
+	addi $v0, $0, 4		#mostramos el string
+	syscall
+
+bucle:
+
+	lb $t0,0($a0)		#cogemos el carácter 0 del string y lo guardamos en $t0
+	lb $t1,1($a0)		#cogemos el carácter 1 del string y lo guardamos en $t1
+	
+	sb $t1,0($a0)		#ponemos el carácter 1 en la posición 0
+	sb $t0,1($a0)		#ponemos el carácter 0 en la posición 1
+	
+	addi $a0,$a0,2		#incrementamos en dos el registro base
+	
+	addi $t2,$t2,-1		#disminuímos el número de iteraciones restantes
+	
+	bne $t2,$0,bucle		#si $t2=0 no saltamos a "bucle"
+	
+	addi $a0,$a0,-4		#volvemos al desplazamiento original
+	addi $v0,$0,4		#mostramos el string
+	syscall
+	
+	addi $v0,$0,10		#finalización del programa
+	syscall
